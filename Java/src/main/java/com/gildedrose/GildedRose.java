@@ -88,7 +88,7 @@ class GildedRose {
                     }
                     //quality of backstage passes when sellIn <0 is zero
                 } else {
-                    items[i].quality = items[i].quality - items[i].quality;
+                    items[i].quality = 0;
                 }
                 //if sellin lower than 0 add quality extra
             } else {
