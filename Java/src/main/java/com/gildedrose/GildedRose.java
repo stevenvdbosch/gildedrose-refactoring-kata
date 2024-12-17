@@ -11,24 +11,27 @@ class GildedRose {
 
     public void updateQuality() {
         for (int i = 0; i < items.length; i++) {
-            if (items[i].name.startsWith("Conjured")) {
-                changeQualityAndSellInForConjuredItems(i);
-            } else if (items[i].name.startsWith("Sulfuras")) {
+            if (items[i].name.startsWith("Sulfuras")) {
                 //Sulfuras always stays the same
                 continue;
+            }
+
+            items[i].sellIn -= 1;
+
+            if (items[i].name.startsWith("Conjured")) {
+                changeQualityAndSellInForConjuredItems(i);
             } else if (items[i].name.startsWith("Backstage passes")) {
                 changeQualityAndSellInForBackstagePasses(i);
             } else if (items[i].name.startsWith("Aged Brie")) {
                 changeQualityAndSellInForAgedBrie(i);
             } else {
-                changeQualityAndSellInForDefaultProducts(i);
+                changeQualityAndSellInForDefaultProducts(i, DEFAULT_QUALITY_CHANGE);
             }
         }
     }
 
     private void changeQualityAndSellInForAgedBrie(int i) {
         items[i].quality += DEFAULT_QUALITY_CHANGE;
-        items[i].sellIn -= 1;
         if(items[i].sellIn < 0) {
             items[i].quality += DEFAULT_QUALITY_CHANGE;
         }
@@ -39,7 +42,6 @@ class GildedRose {
 
     private void changeQualityAndSellInForBackstagePasses(int i) {
         items[i].quality += DEFAULT_QUALITY_CHANGE;
-        items[i].sellIn -= 1;
         if (items[i].sellIn <= 10) {
             items[i].quality += DEFAULT_QUALITY_CHANGE;
         }
@@ -55,21 +57,13 @@ class GildedRose {
     }
 
     private void changeQualityAndSellInForConjuredItems(int i) {
-        items[i].quality -= DEFAULT_QUALITY_CHANGE * 2;
-        items[i].sellIn -= 1;
-        if (items[i].sellIn < 0) {
-            items[i].quality -= DEFAULT_QUALITY_CHANGE * 2;
-        }
-        if (items[i].quality < 0) {
-            items[i].quality = 0;
-        }
+        changeQualityAndSellInForDefaultProducts(i, DEFAULT_QUALITY_CHANGE * 2);
     }
 
-    private void changeQualityAndSellInForDefaultProducts(int i) {
-        items[i].quality -= DEFAULT_QUALITY_CHANGE;
-        items[i].sellIn -= 1;
+    private void changeQualityAndSellInForDefaultProducts(int i, int qualityChange) {
+        items[i].quality -= qualityChange;
         if(items[i].sellIn < 0) {
-            items[i].quality -= DEFAULT_QUALITY_CHANGE;
+            items[i].quality -= qualityChange;
         }
         if(items[i].quality < 0) {
             items[i].quality = 0;
