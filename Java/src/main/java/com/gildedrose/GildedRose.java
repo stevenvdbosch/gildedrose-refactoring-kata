@@ -6,27 +6,38 @@ class GildedRose {
     Item[] items;
     List<String> specials = List.of("Aged Brie", "Backstage passes to a TAFKAL80ETC concert", "Sulfuras, Hand of Ragnaros");
 
+    public static final int DEFAULT_QUALITY_DECREASE = 1;
+
     public GildedRose(Item[] items) {
         this.items = items;
     }
 
     public void updateQuality() {
         for (int i = 0; i < items.length; i++) {
-            if (!specials.contains(items[i].name)) {
-                changeQualityAndSellInForDefaultProducts(i);
-            }
-
-            if(specials.contains(items[i].name)){
-                updateSpecials(i);
+            if (items[i].name.startsWith("Conjured")) {
+                items[i].quality -= DEFAULT_QUALITY_DECREASE * 2;
+                items[i].sellIn -= 1;
+                if (items[i].sellIn < 0) {
+                    items[i].quality -= DEFAULT_QUALITY_DECREASE * 2;
+                }
+                if (items[i].quality < 0) {
+                    items[i].quality = 0;
+                }
+            } else {
+                if (!specials.contains(items[i].name)) {
+                    changeQualityAndSellInForDefaultProducts(i);
+                } else {
+                    updateSpecials(i);
+                }
             }
         }
     }
 
     private void changeQualityAndSellInForDefaultProducts(int i) {
-        items[i].quality -= 1;
+        items[i].quality -= DEFAULT_QUALITY_DECREASE;
         items[i].sellIn -= 1;
         if(items[i].sellIn < 0) {
-            items[i].quality -= 1;
+            items[i].quality -= DEFAULT_QUALITY_DECREASE;
         }
         if(items[i].quality < 0) {
             items[i].quality = 0;
