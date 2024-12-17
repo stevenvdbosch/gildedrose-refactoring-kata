@@ -4,7 +4,7 @@ import java.util.List;
 
 class GildedRose {
     Item[] items;
-    List<String> specials = List.of("Aged Brie", "Backstage passes to a TAFKAL80ETC concert", "Sulfuras, Hand of Ragnaros");
+    List<String> specials = List.of("Aged Brie", "Backstage passes to a TAFKAL80ETC concert");
 
     public static final int DEFAULT_QUALITY_DECREASE = 1;
 
@@ -23,6 +23,9 @@ class GildedRose {
                 if (items[i].quality < 0) {
                     items[i].quality = 0;
                 }
+            } else if (items[i].name.startsWith("Sulfuras")) {
+                //No change for Sulfuras
+                continue;
             } else {
                 if (!specials.contains(items[i].name)) {
                     changeQualityAndSellInForDefaultProducts(i);
@@ -49,9 +52,7 @@ class GildedRose {
         if (!items[i].name.equals("Aged Brie")
                 && !items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
             if (items[i].quality > 0) {
-                if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                    items[i].quality = items[i].quality - 1;
-                }
+                items[i].quality = items[i].quality - 1;
             }
         } else {
             // change quality of items being aged brie or backstage passes
@@ -75,9 +76,7 @@ class GildedRose {
         }
 
         //change the sellIn value
-        if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-            items[i].sellIn = items[i].sellIn - 1;
-        }
+        items[i].sellIn = items[i].sellIn - 1;
 
 
         if (items[i].sellIn < 0) {
@@ -85,9 +84,7 @@ class GildedRose {
             if (!items[i].name.equals("Aged Brie")) {
                 if (!items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
                     if (items[i].quality > 0) {
-                        if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                            items[i].quality = items[i].quality - 1;
-                        }
+                        items[i].quality = items[i].quality - 1;
                     }
                     //quality of backstage passes when sellIn <0 is zero
                 } else {
