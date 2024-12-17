@@ -60,12 +60,15 @@ class GildedRoseTest {
 
     /**
      * The quality of an item is never more than 50.
-     * This can be tested with Aged Brie, as it increases in quality.
+     * This can be tested with Aged Brie and Backstage passes, as those increase in quality.
      */
     @Test
     void testQualityOfItemIsNeverMoreThan50() {
-        Item[] items = new Item[] { new Item("Aged Brie", 5, 50) };
-        GildedRose app = new GildedRose(items);
+        List<Item> items = new ArrayList<>();
+        items.add(new Item("Aged Brie", 5, 50));
+        items.add(new Item("Backstage passes", 5, 50));
+
+        GildedRose app = new GildedRose(items.toArray(new Item[0]));
 
         app.updateQuality();
 

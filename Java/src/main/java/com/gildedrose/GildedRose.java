@@ -1,10 +1,7 @@
 package com.gildedrose;
 
-import java.util.List;
-
 class GildedRose {
     Item[] items;
-    List<String> specials = List.of("Aged Brie", "Backstage passes to a TAFKAL80ETC concert");
 
     public static final int DEFAULT_QUALITY_CHANGE = 1;
 
@@ -24,7 +21,7 @@ class GildedRose {
                     items[i].quality = 0;
                 }
             } else if (items[i].name.startsWith("Sulfuras")) {
-                //No change for Sulfuras
+                //Sulfuras always stays the same
                 continue;
             } else if (items[i].name.startsWith("Backstage passes")) {
                 items[i].quality += DEFAULT_QUALITY_CHANGE;
@@ -41,12 +38,17 @@ class GildedRose {
                 if(items[i].sellIn < 0) {
                     items[i].quality = 0;
                 }
-            } else {
-                if (!specials.contains(items[i].name)) {
-                    changeQualityAndSellInForDefaultProducts(i);
-                } else {
-                    updateSpecials(i);
+            } else if (items[i].name.startsWith("Aged Brie")) {
+                items[i].quality += DEFAULT_QUALITY_CHANGE;
+                items[i].sellIn -= 1;
+                if(items[i].sellIn < 0) {
+                    items[i].quality += DEFAULT_QUALITY_CHANGE;
                 }
+                if(items[i].quality > 50) {
+                    items[i].quality = 50;
+                }
+            } else {
+                changeQualityAndSellInForDefaultProducts(i);
             }
         }
     }
@@ -59,23 +61,6 @@ class GildedRose {
         }
         if(items[i].quality < 0) {
             items[i].quality = 0;
-        }
-    }
-
-    private void updateSpecials(int i) {
-        // change quality of items being aged brie or backstage passes
-        if (items[i].quality < 50) {
-            items[i].quality = items[i].quality + 1;
-        }
-
-        //change the sellIn value
-        items[i].sellIn = items[i].sellIn - 1;
-
-        if (items[i].sellIn < 0) {
-            // if sellin lower than 0 and item is not aged brie: lower quality extra
-            if (items[i].quality < 50) {
-                items[i].quality = items[i].quality + 1;
-            }
         }
     }
 }
