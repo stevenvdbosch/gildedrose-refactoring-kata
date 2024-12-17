@@ -2,6 +2,9 @@ package com.gildedrose;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GildedRoseTest {
@@ -142,4 +145,17 @@ class GildedRoseTest {
         assertEquals(0, app.items[0].quality);
     }
 
+    @Test
+    void testConjuredItemsDegradeFasterInQuality() {
+        List<Item> items = new ArrayList<>();
+        items.add(new Item("Conjured item", 4, 5));
+        items.add(new Item("Conjured item with sellIn under zero", -1, 5));
+
+        GildedRose app = new GildedRose(items.toArray(new Item[0]));
+
+        app.updateQuality();
+
+        assertEquals(3, app.items[0].quality);
+        assertEquals(1, app.items[1].quality);
+    }
 }
