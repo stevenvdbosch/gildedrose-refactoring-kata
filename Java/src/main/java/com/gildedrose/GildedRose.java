@@ -1,72 +1,40 @@
 package com.gildedrose;
 
+import com.gildedrose.updatableItems.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 class GildedRose {
     Item[] items;
-
-    public static final int DEFAULT_QUALITY_CHANGE = 1;
+    List<UpdatableItem> updatableItems;
 
     public GildedRose(Item[] items) {
         this.items = items;
+        transformItemsToUpdatableItems();
     }
 
     public void updateQuality() {
-        for (int i = 0; i < items.length; i++) {
-            if (items[i].name.startsWith("Sulfuras")) {
-                //Sulfuras always stays the same
-                continue;
-            }
+        for(UpdatableItem item : updatableItems) {
+            item.updateQualityAndSellIn();
+        }
+    }
 
-            items[i].sellIn -= 1;
+    private void transformItemsToUpdatableItems() {
+        updatableItems = new ArrayList<>();
 
-            if (items[i].name.startsWith("Conjured")) {
-                changeQualityAndSellInForConjuredItems(i);
-            } else if (items[i].name.startsWith("Backstage passes")) {
-                changeQualityAndSellInForBackstagePasses(i);
-            } else if (items[i].name.startsWith("Aged Brie")) {
-                changeQualityAndSellInForAgedBrie(i);
+        for (Item item : items) {
+            if (item.name.startsWith("Sulfuras")) {
+                updatableItems.add(new Sulfuras(item));
+            } else if (item.name.startsWith("Conjured")) {
+                updatableItems.add(new ConjuredItem(item));
+            } else if (item.name.startsWith("Backstage passes")) {
+                updatableItems.add(new BackstagePass(item));
+            } else if (item.name.startsWith("Aged Brie")) {
+                updatableItems.add(new AgedBrie(item));
             } else {
-                changeQualityAndSellInForDefaultProducts(i, DEFAULT_QUALITY_CHANGE);
+                updatableItems.add(new DefaultUpdatableItem(item));
             }
-        }
-    }
-
-    private void changeQualityAndSellInForAgedBrie(int i) {
-        items[i].quality += DEFAULT_QUALITY_CHANGE;
-        if(items[i].sellIn < 0) {
-            items[i].quality += DEFAULT_QUALITY_CHANGE;
-        }
-        if(items[i].quality > 50) {
-            items[i].quality = 50;
-        }
-    }
-
-    private void changeQualityAndSellInForBackstagePasses(int i) {
-        items[i].quality += DEFAULT_QUALITY_CHANGE;
-        if (items[i].sellIn <= 10) {
-            items[i].quality += DEFAULT_QUALITY_CHANGE;
-        }
-        if (items[i].sellIn <= 5) {
-            items[i].quality += DEFAULT_QUALITY_CHANGE;
-        }
-        if(items[i].quality > 50) {
-            items[i].quality = 50;
-        }
-        if(items[i].sellIn < 0) {
-            items[i].quality = 0;
-        }
-    }
-
-    private void changeQualityAndSellInForConjuredItems(int i) {
-        changeQualityAndSellInForDefaultProducts(i, DEFAULT_QUALITY_CHANGE * 2);
-    }
-
-    private void changeQualityAndSellInForDefaultProducts(int i, int qualityChange) {
-        items[i].quality -= qualityChange;
-        if(items[i].sellIn < 0) {
-            items[i].quality -= qualityChange;
-        }
-        if(items[i].quality < 0) {
-            items[i].quality = 0;
         }
     }
 }
