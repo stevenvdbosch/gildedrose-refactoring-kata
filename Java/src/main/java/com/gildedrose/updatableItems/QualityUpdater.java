@@ -6,5 +6,7 @@ public interface QualityUpdater {
 
     void updateSellIn();
 
-    void updateQuality();
+    void increaseQuality();
+
+    void decreaseQuality();
 }

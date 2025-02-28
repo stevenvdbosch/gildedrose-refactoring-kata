@@ -14,20 +14,17 @@ public class BackstagePass extends UpdatableItem {
     @Override
     public void updateQualityAndSellIn() {
         this.updateSellIn();
-        this.updateQuality();
+        this.increaseQuality();
     }
 
     @Override
-    public void updateQuality() {
-        item.quality += 1;
+    public void increaseQuality() {
+        super.increaseQuality();
         if (item.sellIn <= FIRST_THRESHOLD) {
-            item.quality += 1;
+            super.increaseQuality();
         }
         if (item.sellIn <= SECOND_THRESHOLD) {
-            item.quality += 1;
-        }
-        if(item.quality > MAX_QUALITY) {
-            item.quality = MAX_QUALITY;
+            super.increaseQuality();
         }
         if(item.sellIn < 0) {
             item.quality = 0;

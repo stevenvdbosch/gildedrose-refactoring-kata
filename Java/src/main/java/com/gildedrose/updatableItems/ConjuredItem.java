@@ -11,7 +11,7 @@ public class ConjuredItem extends UpdatableItem {
     @Override
     public void updateQualityAndSellIn() {
         this.updateSellIn();
-        this.updateQuality();
-        this.updateQuality();
+        this.decreaseQuality();
+        this.decreaseQuality();
     }
 }

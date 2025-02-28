@@ -11,6 +11,6 @@ public class DefaultUpdatableItem extends UpdatableItem {
     @Override
     public void updateQualityAndSellIn() {
         this.updateSellIn();
-        this.updateQuality();
+        this.decreaseQuality();
     }
 }

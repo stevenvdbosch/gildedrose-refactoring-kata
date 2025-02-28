@@ -4,6 +4,7 @@ import com.gildedrose.Item;
 
 public abstract class UpdatableItem implements QualityUpdater {
 
+    public static final int MIN_QUALITY = 0;
     public static final int MAX_QUALITY = 50;
 
     protected Item item;
@@ -21,10 +22,19 @@ public abstract class UpdatableItem implements QualityUpdater {
     }
 
     @Override
-    public void updateQuality() {
+    public void decreaseQuality() {
         item.quality = item.sellIn < 0 ? item.quality - 2 : item.quality - 1;
-        if (item.quality < 0) {
-            item.quality = 0;
+        if (item.quality < MIN_QUALITY) {
+            item.quality = MIN_QUALITY;
         }
     }
+
+    @Override
+    public void increaseQuality() {
+        item.quality = item.sellIn < 0 ? item.quality + 2 : item.quality + 1;
+        if(item.quality > MAX_QUALITY) {
+            item.quality = MAX_QUALITY;
+        }
+    }
+
 }
