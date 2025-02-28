@@ -10,7 +10,12 @@ public class AgedBrie extends UpdatableItem {
 
     @Override
     public void updateQualityAndSellIn() {
-        item.sellIn -= 1;
+        this.updateSellIn();
+        this.updateQuality();
+    }
+
+    @Override
+    public void updateQuality() {
         item.quality += 1;
         if(item.sellIn < 0) {
             item.quality += 1;
@@ -19,5 +24,4 @@ public class AgedBrie extends UpdatableItem {
             item.quality = MAX_QUALITY;
         }
     }
-
 }

@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.gildedrose.updatableItems.BackstagePass.FIRST_THRESHOLD;
+import static com.gildedrose.updatableItems.BackstagePass.SECOND_THRESHOLD;
 import static com.gildedrose.updatableItems.UpdatableItem.MAX_QUALITY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -123,7 +125,7 @@ class GildedRoseTest {
 
     @Test
     void testBackstagePassesWhen10DaysOrLessIncreaseInQualityBy2() {
-        Item[] items = new Item[] { new Item("Backstage passes to a TAFKAL80ETC concert", 10, 5) };
+        Item[] items = new Item[] { new Item("Backstage passes to a TAFKAL80ETC concert", FIRST_THRESHOLD, 5) };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
@@ -133,7 +135,7 @@ class GildedRoseTest {
 
     @Test
     void testBackstagePassesWhen5DaysOrLessIncreaseInQualityBy3() {
-        Item[] items = new Item[] { new Item("Backstage passes to a TAFKAL80ETC concert", 5, 5) };
+        Item[] items = new Item[] { new Item("Backstage passes to a TAFKAL80ETC concert", SECOND_THRESHOLD, 5) };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
