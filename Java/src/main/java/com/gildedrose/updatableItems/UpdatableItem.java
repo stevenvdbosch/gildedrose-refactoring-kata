@@ -4,6 +4,8 @@ import com.gildedrose.Item;
 
 public abstract class UpdatableItem implements QualityUpdater {
 
+    public static final int MAX_QUALITY = 50;
+
     protected Item item;
 
     public UpdatableItem(Item item) {

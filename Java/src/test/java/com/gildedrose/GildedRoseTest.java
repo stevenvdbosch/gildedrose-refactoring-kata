@@ -5,9 +5,12 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.gildedrose.updatableItems.UpdatableItem.MAX_QUALITY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GildedRoseTest {
+
+    private static final int SULFURAS_QUALITY = 80;
 
     @Test
     void testGivenNameStaysTheSame() {
@@ -59,25 +62,25 @@ class GildedRoseTest {
     }
 
     /**
-     * The quality of an item is never more than 50.
+     * The quality of an item is never more than UpdatableItem.MAX_QUALITY. (except for Sulfuras, see next test)
      * This can be tested with Aged Brie and Backstage passes, as those increase in quality.
      */
     @Test
-    void testQualityOfItemIsNeverMoreThan50() {
+    void testQualityOfItemIsNeverMoreThanMAX() {
         List<Item> items = new ArrayList<>();
-        items.add(new Item("Aged Brie", 5, 50));
-        items.add(new Item("Backstage passes", 5, 50));
+        items.add(new Item("Aged Brie", 5, MAX_QUALITY));
+        items.add(new Item("Backstage passes", 5, MAX_QUALITY));
 
         GildedRose app = new GildedRose(items.toArray(new Item[0]));
 
         app.updateQuality();
 
-        assertEquals(50, app.items[0].quality);
+        assertEquals(MAX_QUALITY, app.items[0].quality);
     }
 
     @Test
     void testSulfurasDoesNotDecreaseInSellInValue() {
-        Item[] items = new Item[] { new Item("Sulfuras, Hand of Ragnaros", 5, 80) };
+        Item[] items = new Item[] { new Item("Sulfuras, Hand of Ragnaros", 5, SULFURAS_QUALITY) };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
@@ -87,25 +90,25 @@ class GildedRoseTest {
 
     @Test
     void testSulfurasDoesNotDegradeInQuality() {
-        Item[] items = new Item[] { new Item("Sulfuras, Hand of Ragnaros", 5, 80) };
+        Item[] items = new Item[] { new Item("Sulfuras, Hand of Ragnaros", 5, SULFURAS_QUALITY) };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
 
-        assertEquals(80, app.items[0].quality);
+        assertEquals(SULFURAS_QUALITY, app.items[0].quality);
     }
 
     /**
-     * Sulfuras can have a quality higher than 50, and it's quality should never change.
+     * Sulfuras always at SULFURAS_QUALITY, and it's quality should never change.
      */
     @Test
-    void testSulfurasKeepsQuality80() {
-        Item[] items = new Item[] { new Item("Sulfuras, Hand of Ragnaros", -1, 80) };
+    void testSulfurasKeepsQuality() {
+        Item[] items = new Item[] { new Item("Sulfuras, Hand of Ragnaros", -1, SULFURAS_QUALITY) };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
 
-        assertEquals(80, app.items[0].quality);
+        assertEquals(SULFURAS_QUALITY, app.items[0].quality);
     }
 
     @Test
